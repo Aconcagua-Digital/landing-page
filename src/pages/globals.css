@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+body {
+  background-color: #050505;
+  color: #ffffff;
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+/* Contenedor principal que esconde lo que desborda */
+.marquee-wrapper {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  user-select: none;
+}
+
+/* El bloque interno que se desplaza infinitamente */
+.marquee-inner {
+  display: flex;
+  gap: 3rem; /* Espacio entre las herramientas */
+  white-space: nowrap;
+  /* Aumentamos de 30s a 60s para que sea más lento, y cambiamos a scroll-left */
+  animation: scroll-left 60s linear infinite; 
+}
+
+/* Animación: arranca en 0% y se desplaza hacia la izquierda hasta el -50% */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
