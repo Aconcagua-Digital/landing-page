@@ -11,17 +11,32 @@ import {
 } from 'framer-motion';
 
 // =========================================
-// HOOK: Detección de idioma del navegador
+// HOOK: Detección y cambio de idioma
 // =========================================
 function useLocale() {
   const [locale, setLocale] = useState<'es' | 'en'>('es');
 
   useEffect(() => {
+    // 1. Revisamos si el usuario ya eligió un idioma antes
+    const savedLocale = localStorage.getItem('aconcagua-lang') as 'es' | 'en' | null;
+    if (savedLocale) {
+      setLocale(savedLocale);
+      return;
+    }
+    // 2. Si no, detectamos el del navegador
     const browserLang = navigator.language || navigator.languages?.[0] || 'es';
     setLocale(browserLang.toLowerCase().startsWith('en') ? 'en' : 'es');
   }, []);
 
-  return locale;
+  const toggleLocale = () => {
+    setLocale((prev) => {
+      const newLocale = prev === 'es' ? 'en' : 'es';
+      localStorage.setItem('aconcagua-lang', newLocale);
+      return newLocale;
+    });
+  };
+
+  return { locale, toggleLocale };
 }
 
 // =========================================
@@ -387,6 +402,23 @@ const content = {
     techLabel: 'Tech Stack & Partners',
   },
 };
+
+// =========================================
+// COMPONENTE: Switch de Idioma
+// =========================================
+function LanguageToggle({ locale, onToggle }: { locale: 'es' | 'en'; onToggle: () => void }) {
+  return (
+    <button
+      onClick={onToggle}
+      className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold transition-colors hover:bg-white/10"
+      aria-label="Toggle language"
+    >
+      <span className={locale === 'es' ? 'text-white' : 'text-gray-500 transition-colors'}>ES</span>
+      <span className="text-gray-600">/</span>
+      <span className={locale === 'en' ? 'text-white' : 'text-gray-500 transition-colors'}>EN</span>
+    </button>
+  );
+}
 
 // =========================================
 // COMPONENTE: Barra de progreso de scroll
@@ -1236,7 +1268,7 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState('inicio');
   const [navScrolled, setNavScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const locale = useLocale();
+  const { locale, toggleLocale } = useLocale();
   const t = content[locale];
 
   useEffect(() => {
@@ -1331,8 +1363,10 @@ export default function Home() {
 
           <NavLinks activeSection={activeSection} labels={t.nav} />
 
+          {/* MENÚ DERECHO - DESKTOP */}
           <div className="hidden lg:flex items-center gap-6 shrink-0">
             <AvailabilityIndicator label={t.availability} />
+            <LanguageToggle locale={locale} onToggle={toggleLocale} />
             <MagneticButton
               href="#contacto"
               className="px-6 py-2 bg-white text-black text-sm font-bold rounded-full hover:bg-gray-200 transition-colors whitespace-nowrap"
@@ -1341,28 +1375,32 @@ export default function Home() {
             </MagneticButton>
           </div>
 
-          <button
-            onClick={() => setMobileMenuOpen((v) => !v)}
-            className="lg:hidden text-gray-400 hover:text-white relative w-7 h-7 flex items-center justify-center"
-            aria-label="Menú"
-            aria-expanded={mobileMenuOpen}
-          >
-            <motion.span
-              animate={{ rotate: mobileMenuOpen ? 45 : 0, y: mobileMenuOpen ? 6 : 0 }}
-              className="absolute w-6 h-0.5 bg-current rounded-full"
-              style={{ top: '30%' }}
-            />
-            <motion.span
-              animate={{ opacity: mobileMenuOpen ? 0 : 1 }}
-              className="absolute w-6 h-0.5 bg-current rounded-full"
-              style={{ top: '50%', marginTop: '-1px' }}
-            />
-            <motion.span
-              animate={{ rotate: mobileMenuOpen ? -45 : 0, y: mobileMenuOpen ? -6 : 0 }}
-              className="absolute w-6 h-0.5 bg-current rounded-full"
-              style={{ bottom: '30%' }}
-            />
-          </button>
+          {/* MENÚ DERECHO - MOBILE */}
+          <div className="flex lg:hidden items-center gap-4 shrink-0">
+            <LanguageToggle locale={locale} onToggle={toggleLocale} />
+            <button
+              onClick={() => setMobileMenuOpen((v) => !v)}
+              className="text-gray-400 hover:text-white relative w-7 h-7 flex items-center justify-center"
+              aria-label="Menú"
+              aria-expanded={mobileMenuOpen}
+            >
+              <motion.span
+                animate={{ rotate: mobileMenuOpen ? 45 : 0, y: mobileMenuOpen ? 6 : 0 }}
+                className="absolute w-6 h-0.5 bg-current rounded-full"
+                style={{ top: '30%' }}
+              />
+              <motion.span
+                animate={{ opacity: mobileMenuOpen ? 0 : 1 }}
+                className="absolute w-6 h-0.5 bg-current rounded-full"
+                style={{ top: '50%', marginTop: '-1px' }}
+              />
+              <motion.span
+                animate={{ rotate: mobileMenuOpen ? -45 : 0, y: mobileMenuOpen ? -6 : 0 }}
+                className="absolute w-6 h-0.5 bg-current rounded-full"
+                style={{ bottom: '30%' }}
+              />
+            </button>
+          </div>
         </div>
       </header>
 
@@ -1545,7 +1583,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PLANES Y PRECIOS (CORRECCIONES APLICADAS) */}
+      {/* PLANES Y PRECIOS */}
       <section id="planes" className="max-w-7xl mx-auto pt-28 px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -1559,7 +1597,6 @@ export default function Home() {
           <p className="mt-4 text-gray-400 text-lg">{t.pricing.subtitle}</p>
         </motion.div>
 
-        {/* Agregado pt-6 para que la etiqueta flotante no se corte */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-6">
           {t.pricing.items.map((plan) => (
             <div
