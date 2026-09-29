@@ -701,7 +701,7 @@ function RevealWords({ text, className = '' }: { text: string; className?: strin
   return (
     <span className={className}>
       {words.map((word, i) => (
-        <span key={i} className="inline-block overflow-hidden mr-[0.25em]">
+        <span key={i} className="inline-block overflow-hidden mr-[0.25em] pb-[0.18em] -mb-[0.18em]">
           <motion.span
             className="inline-block"
             initial={{ y: '110%' }}
