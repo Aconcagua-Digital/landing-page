@@ -36,6 +36,10 @@ function useLocale() {
     });
   };
 
+  useEffect(() => {
+    document.documentElement.lang = locale;
+  }, [locale]);
+
   return { locale, toggleLocale };
 }
 
@@ -61,10 +65,10 @@ const content = {
       p2: 'Somos el puente entre los objetivos de tu empresa y el entorno digital. Fusionamos desarrollo de software full-stack, automatización y análisis de datos para crear soluciones que impactan directamente en la rentabilidad de nuestros clientes.',
       p3: 'Ya sea desarrollando una plataforma web a medida para captar clientes corporativos, auditando el rendimiento con dashboards en tiempo real, o automatizando procesos manuales, construimos la infraestructura que tu negocio necesita para liderar su sector.',
       stats: [
-        { value: 2, suffix: '', label: 'Sitios en Producción' },
-        { value: 500, suffix: '+', label: 'Usuarios Mensuales Impactados' },
-        { value: 1, suffix: '', label: 'Integración Meta CAPI en Producción' },
-        { value: 100, suffix: '%', label: 'Código Propio (Sin Plantillas)' },
+        { value: 2, suffix: '', label: 'Sitios en Producción', href: undefined as string | undefined },
+        { value: 500, suffix: '+', label: 'Usuarios Mensuales Impactados', href: undefined as string | undefined },
+        { value: 1, suffix: '', label: 'Integración Meta CAPI en Producción', href: undefined as string | undefined },
+        { value: 96, suffix: '', label: 'Lighthouse Performance (Móvil)', href: 'https://pagespeed.web.dev/analysis/https-aconcagua-digital-vercel-app/ktmxkpxvum?form_factor=mobile' as string | undefined },
       ],
     },
     process: {
@@ -96,13 +100,6 @@ const content = {
         { title: 'Ingeniería de Conversión (Growth)', desc: 'Infraestructura para pauta digital de alto nivel. Configuración avanzada de seguimiento (Server-Side Tracking) y auditoría técnica de campañas para maximizar el ROI.' },
       ],
     },
-    terminalScript: [
-      { type: 'cmd', text: '$ python optimizar_infraestructura.py --cliente=corporativo' },
-      { type: 'out', text: 'Analizando flujos de conversión...' },
-      { type: 'out', text: 'Automatización: ON  ·  Integración API: 100%  ·  Latencia: -40%' },
-      { type: 'cmd', text: '$ npm run deploy:dashboard' },
-      { type: 'out', text: '✓ Ecosistema escalado exitosamente.' },
-    ],
     pricing: {
       title: 'Planes de Desarrollo',
       subtitle: 'Inversión transparente adaptada al momento de tu empresa.',
@@ -240,10 +237,10 @@ const content = {
       p2: 'We serve as the bridge between your business goals and the digital environment. We merge full-stack software development, automation, and data analytics to build solutions that directly impact our clients\' profitability.',
       p3: 'Whether it is developing a custom web platform to attract corporate clients, auditing performance with real-time dashboards, or automating manual workflows, we build the technical infrastructure your business needs to lead its industry.',
       stats: [
-        { value: 2, suffix: '', label: 'Sites in Production' },
-        { value: 500, suffix: '+', label: 'Monthly Users Impacted' },
-        { value: 1, suffix: '', label: 'Live Meta CAPI Integration' },
-        { value: 100, suffix: '%', label: 'Custom Code (No Templates)' },
+        { value: 2, suffix: '', label: 'Sites in Production', href: undefined as string | undefined },
+        { value: 500, suffix: '+', label: 'Monthly Users Impacted', href: undefined as string | undefined },
+        { value: 1, suffix: '', label: 'Live Meta CAPI Integration', href: undefined as string | undefined },
+        { value: 96, suffix: '', label: 'Lighthouse Performance (Mobile)', href: 'https://pagespeed.web.dev/analysis/https-aconcagua-digital-vercel-app/ktmxkpxvum?form_factor=mobile' as string | undefined },
       ],
     },
     process: {
@@ -275,13 +272,6 @@ const content = {
         { title: 'Conversion Engineering (Growth)', desc: 'High-level infrastructure for digital advertising. Advanced server-side tracking setup and technical campaign audits to maximize your ROI.' },
       ],
     },
-    terminalScript: [
-      { type: 'cmd', text: '$ python optimize_infrastructure.py --client=corporate' },
-      { type: 'out', text: 'Analyzing conversion workflows...' },
-      { type: 'out', text: 'Automation: ON  ·  API Integration: 100%  ·  Latency: -40%' },
-      { type: 'cmd', text: '$ npm run deploy:dashboard' },
-      { type: 'out', text: '✓ Ecosystem successfully scaled.' },
-    ],
     pricing: {
       title: 'Development Plans',
       subtitle: 'Transparent investment tailored to your business stage.',
@@ -414,7 +404,7 @@ function LanguageToggle({ locale, onToggle }: { locale: 'es' | 'en'; onToggle: (
       aria-label="Toggle language"
     >
       <span className={locale === 'es' ? 'text-white' : 'text-gray-500 transition-colors'}>ES</span>
-      <span className="text-gray-600">/</span>
+      <span className="text-gray-500">/</span>
       <span className={locale === 'en' ? 'text-white' : 'text-gray-500 transition-colors'}>EN</span>
     </button>
   );
@@ -525,10 +515,12 @@ function AmbientGlow() {
 function SpotlightCard({
   children,
   className = '',
+  contentClassName = '',
   onClick,
 }: {
   children: React.ReactNode;
   className?: string;
+  contentClassName?: string;
   onClick?: () => void;
 }) {
   const mouseX = useMotionValue(0);
@@ -555,7 +547,7 @@ function SpotlightCard({
         className="pointer-events-none absolute -inset-px opacity-0 group-hover:opacity-100 transition-opacity duration-300"
         style={{ background }}
       />
-      <div className="relative z-10">{children}</div>
+      <div className={`relative z-10 ${contentClassName}`}>{children}</div>
     </motion.div>
   );
 }
@@ -931,66 +923,6 @@ function ClientLogos({ label }: { label: string }) {
   );
 }
 
-// =========================================
-// COMPONENTE: Terminal animada
-// =========================================
-function TerminalDemo({ script }: { script: { type: string; text: string }[] }) {
-  const [visibleLines, setVisibleLines] = useState(0);
-  const [charCount, setCharCount] = useState(0);
-
-  useEffect(() => {
-    setVisibleLines(0);
-    setCharCount(0);
-  }, [script]);
-
-  useEffect(() => {
-    if (visibleLines >= script.length) {
-      const resetTimer = setTimeout(() => {
-        setVisibleLines(0);
-        setCharCount(0);
-      }, 2200);
-      return () => clearTimeout(resetTimer);
-    }
-
-    const currentLine = script[visibleLines].text;
-
-    if (charCount < currentLine.length) {
-      const t = setTimeout(() => setCharCount((c) => c + 1), 18);
-      return () => clearTimeout(t);
-    } else {
-      const t = setTimeout(() => {
-        setVisibleLines((v) => v + 1);
-        setCharCount(0);
-      }, 500);
-      return () => clearTimeout(t);
-    }
-  }, [charCount, visibleLines, script]);
-
-  return (
-    <SpotlightCard className="p-0 rounded-2xl bg-[#0a0a0a] border border-gray-800 overflow-hidden md:col-span-3">
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-800 bg-[#111111]">
-        <span className="h-3 w-3 rounded-full bg-red-500/70" />
-        <span className="h-3 w-3 rounded-full bg-yellow-500/70" />
-        <span className="h-3 w-3 rounded-full bg-green-500/70" />
-        <span className="ml-3 text-xs text-gray-500 font-mono">admin@aconcagua — zsh</span>
-      </div>
-      <div className="p-6 font-mono text-sm leading-relaxed min-h-[220px]">
-        {script.slice(0, visibleLines).map((line, i) => (
-          <div key={i} className={line.type === 'cmd' ? 'text-white mb-1' : 'text-green-400 mb-3 pl-4'}>
-            {line.text}
-          </div>
-        ))}
-        {visibleLines < script.length && (
-          <div className={script[visibleLines].type === 'cmd' ? 'text-white' : 'text-green-400 pl-4'}>
-            {script[visibleLines].text.slice(0, charCount)}
-            <span className="inline-block w-2 h-4 bg-white/70 ml-0.5 animate-pulse align-middle" />
-          </div>
-        )}
-      </div>
-    </SpotlightCard>
-  );
-}
-
 type Project = {
   category: string;
   categoryColor: string;
@@ -1272,6 +1204,17 @@ export default function Home() {
   const t = content[locale];
 
   useEffect(() => {
+    document.title = `Aconcagua Digital | ${t.hero.subtitle}`;
+    let meta = document.querySelector('meta[name="description"]');
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.setAttribute('name', 'description');
+      document.head.appendChild(meta);
+    }
+    meta.setAttribute('content', t.hero.description);
+  }, [t]);
+
+  useEffect(() => {
     const observers: IntersectionObserver[] = [];
     NAV_IDS.forEach((id) => {
       const el = document.getElementById(id);
@@ -1412,6 +1355,7 @@ export default function Home() {
           loop
           muted
           playsInline
+          aria-hidden="true"
           style={{ y: videoY }}
           className="absolute top-0 left-0 w-full h-[120%] object-cover z-0 opacity-50"
         >
@@ -1501,14 +1445,32 @@ export default function Home() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="grid grid-cols-2 gap-4"
           >
-            {t.about.stats.map((stat) => (
-              <SpotlightCard key={stat.label} className="p-6 bg-[#111111] border border-gray-800 rounded-2xl flex flex-col justify-center items-center text-center">
-                <span className="text-3xl lg:text-4xl font-extrabold text-white mb-2">
-                  <CountUp value={stat.value} suffix={stat.suffix} />
-                </span>
-                <span className="text-sm text-gray-500 font-medium">{stat.label}</span>
-              </SpotlightCard>
-            ))}
+            {t.about.stats.map((stat) =>
+              stat.href ? (
+                <a key={stat.label} href={stat.href} target="_blank" rel="noopener noreferrer" className="block h-full">
+                  <SpotlightCard
+                    contentClassName="flex flex-col items-center"
+                    className="h-full p-6 bg-[#111111] border border-gray-800 rounded-2xl flex flex-col justify-center items-center text-center hover:border-gray-600 transition-colors"
+                  >
+                    <span className="text-3xl lg:text-4xl font-extrabold text-white mb-2">
+                      <CountUp value={stat.value} suffix={stat.suffix} />
+                    </span>
+                    <span className="text-sm text-gray-500 font-medium">{stat.label}</span>
+                  </SpotlightCard>
+                </a>
+              ) : (
+                <SpotlightCard
+                  key={stat.label}
+                  contentClassName="flex flex-col items-center"
+                  className="p-6 bg-[#111111] border border-gray-800 rounded-2xl flex flex-col justify-center items-center text-center"
+                >
+                  <span className="text-3xl lg:text-4xl font-extrabold text-white mb-2">
+                    <CountUp value={stat.value} suffix={stat.suffix} />
+                  </span>
+                  <span className="text-sm text-gray-500 font-medium">{stat.label}</span>
+                </SpotlightCard>
+              )
+            )}
           </motion.div>
 
         </div>
@@ -1577,9 +1539,6 @@ export default function Home() {
             </SpotlightCard>
           ))}
 
-          <div className="md:col-span-3">
-            <TerminalDemo script={t.terminalScript} />
-          </div>
         </div>
       </section>
 
@@ -1609,6 +1568,7 @@ export default function Home() {
                 </span>
               )}
               <SpotlightCard
+                contentClassName="flex flex-col flex-1"
                 className={`w-full p-8 rounded-2xl border flex flex-col h-full ${
                   plan.highlight
                     ? 'bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] border-white shadow-[0_0_30px_rgba(255,255,255,0.1)]'
@@ -1636,7 +1596,7 @@ export default function Home() {
 
                 <a
                   href="#contacto"
-                  className="w-full py-3 rounded-xl font-bold text-center transition-colors mt-auto border bg-[#1a1a1a] text-white border-gray-700 hover:bg-white hover:text-black hover:border-white"
+                  className="block w-full px-4 py-3 rounded-xl font-bold text-center transition-colors mt-auto border bg-[#1a1a1a] text-white border-gray-700 hover:bg-white hover:text-black hover:border-white"
                 >
                   {t.pricing.contactCta}
                 </a>
