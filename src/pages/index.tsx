@@ -759,11 +759,11 @@ function CountUp({
 }
 
 // =========================================
-// COMPONENTE: Indicador de disponibilidad
+// COMPONENTE: Indicador de disponibilidad (ahora vive en el hero)
 // =========================================
 function AvailabilityIndicator({ label }: { label: string }) {
   return (
-    <div className="hidden md:flex items-center gap-2 text-xs text-gray-400 font-medium whitespace-nowrap">
+    <div className="inline-flex items-center gap-2 text-xs text-gray-300 font-medium whitespace-nowrap px-3 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm">
       <span className="relative flex h-2 w-2 shrink-0">
         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
         <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400"></span>
@@ -788,12 +788,12 @@ function NavLinks({ activeSection, labels }: { activeSection: string; labels: ty
     { id: 'proyectos', label: labels.proyectos },
   ];
   return (
-    <nav className="hidden lg:flex items-center gap-1 text-sm font-medium bg-white/5 border border-white/10 rounded-full p-1">
+    <nav className="hidden xl:flex items-center gap-1 text-sm font-medium bg-white/5 border border-white/10 rounded-full p-1">
       {links.map((link) => (
         <a
           key={link.id}
           href={`#${link.id}`}
-          className={`relative px-4 py-2 rounded-full transition-colors duration-200 whitespace-nowrap ${
+          className={`relative px-3 py-2 rounded-full transition-colors duration-200 whitespace-nowrap ${
             activeSection === link.id ? 'text-black' : 'text-gray-400 hover:text-white'
           }`}
         >
@@ -843,14 +843,14 @@ function MobileMenu({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-40 lg:hidden"
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-40 xl:hidden"
           />
           <motion.div
             initial={{ opacity: 0, y: -10, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.98 }}
             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed top-[80px] left-4 right-4 z-50 lg:hidden bg-[#0a0a0a] border border-white/10 rounded-2xl p-3 shadow-xl shadow-black/50"
+            className="fixed top-[80px] left-4 right-4 z-50 xl:hidden bg-[#0a0a0a] border border-white/10 rounded-2xl p-3 shadow-xl shadow-black/50"
           >
             <nav className="flex flex-col">
               {links.map((link) => (
@@ -1296,7 +1296,7 @@ export default function Home() {
       {/* HEADER */}
       <header className="fixed top-0 w-full z-50 flex justify-center px-4 pt-3 md:pt-4">
         <div
-          className={`flex items-center justify-between gap-4 backdrop-blur-md bg-[#0a0a0a]/80 border border-white/10 rounded-full shadow-lg shadow-black/40 transition-all duration-500 ease-out ${
+          className={`flex items-center justify-between gap-4 min-w-0 backdrop-blur-md bg-[#0a0a0a]/80 border border-white/10 rounded-full shadow-lg shadow-black/40 transition-all duration-500 ease-out ${
             navScrolled ? 'w-[94%] max-w-5xl h-14 px-5' : 'w-full max-w-6xl h-16 px-6'
           }`}
         >
@@ -1307,8 +1307,7 @@ export default function Home() {
           <NavLinks activeSection={activeSection} labels={t.nav} />
 
           {/* MENÚ DERECHO - DESKTOP */}
-          <div className="hidden lg:flex items-center gap-6 shrink-0">
-            <AvailabilityIndicator label={t.availability} />
+          <div className="hidden xl:flex items-center gap-4 shrink-0">
             <LanguageToggle locale={locale} onToggle={toggleLocale} />
             <MagneticButton
               href="#contacto"
@@ -1319,7 +1318,7 @@ export default function Home() {
           </div>
 
           {/* MENÚ DERECHO - MOBILE */}
-          <div className="flex lg:hidden items-center gap-4 shrink-0">
+          <div className="flex xl:hidden items-center gap-4 shrink-0">
             <LanguageToggle locale={locale} onToggle={toggleLocale} />
             <button
               onClick={() => setMobileMenuOpen((v) => !v)}
@@ -1365,6 +1364,9 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/70 via-[#050505]/40 to-[#050505] z-0"></div>
 
         <motion.div className="relative z-10 max-w-5xl mx-auto mt-10">
+          <div className="mb-6 flex justify-center">
+            <AvailabilityIndicator label={t.availability} />
+          </div>
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tighter mb-4 text-white drop-shadow-lg">
             <RevealWords text="Aconcagua Digital" />
           </h1>
@@ -1560,7 +1562,7 @@ export default function Home() {
           {t.pricing.items.map((plan) => (
             <div
               key={plan.name}
-              className={`relative flex h-full ${plan.highlight ? 'md:scale-105 z-10' : ''}`}
+              className="relative flex h-full"
             >
               {plan.highlight && (
                 <span className="absolute -top-3 left-1/2 -translate-x-1/2 z-20 bg-white text-black text-xs font-bold px-4 py-1.5 rounded-full whitespace-nowrap shadow-lg">
@@ -1571,7 +1573,7 @@ export default function Home() {
                 contentClassName="flex flex-col flex-1"
                 className={`w-full p-8 rounded-2xl border flex flex-col h-full ${
                   plan.highlight
-                    ? 'bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] border-white shadow-[0_0_30px_rgba(255,255,255,0.1)]'
+                    ? 'bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] border-white shadow-[0_0_40px_rgba(255,255,255,0.15)]'
                     : 'bg-[#0a0a0a] border-gray-800'
                 }`}
               >
