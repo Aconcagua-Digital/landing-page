@@ -58,7 +58,6 @@ const content = {
       ctaPricing: 'Ver Planes',
       ctaCall: 'Solicitar Presupuesto',
     },
-    clientsLabel: 'Empresas que confían en nosotros',
     about: {
       title: 'Nosotros',
       p1: 'En Aconcagua Digital entendemos que el marketing y las operaciones comerciales tienen un techo si no están respaldados por la tecnología correcta.',
@@ -230,7 +229,6 @@ const content = {
       ctaPricing: 'View Pricing',
       ctaCall: 'Request a Proposal',
     },
-    clientsLabel: 'Trusted by innovative companies',
     about: {
       title: 'About Us',
       p1: 'At Aconcagua Digital, we understand that marketing and business operations have a ceiling if they are not backed by the right technology.',
@@ -878,51 +876,6 @@ function MobileMenu({
   );
 }
 
-// =========================================
-// COMPONENTE: Tira de logos de clientes
-// =========================================
-function ClientLogos({ label }: { label: string }) {
-  const clients = [
-    { name: 'Gracie Barra Córdoba', src: '/GracieBarra.png' },
-    { name: 'Moto Eventos Córdoba', src: '/MEC.png' },
-    { name: 'Aconcagua Comunicación y Marketing', src: '/Aconc.png' },
-    { name: 'Conexión Real', src: '/Conex.png' },
-    { name: 'Sentidos Seguridad Vial', src: '/Sentidos.png' },
-  ];
-  return (
-    <section className="max-w-6xl mx-auto px-4 pt-16">
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false }}
-        transition={{ duration: 0.5 }}
-        className="text-center mb-10"
-      >
-        <DecodeText text={label} className="text-2xl md:text-3xl font-bold tracking-tight text-white" />
-        <div className="h-1 w-16 bg-white rounded-full mx-auto mt-3"></div>
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false }}
-        transition={{ duration: 0.6, delay: 0.1 }}
-        className="flex flex-wrap justify-center items-center gap-x-16 gap-y-10"
-      >
-        {clients.map((client) => (
-          <MagneticDiv key={client.name} strength={0.25}>
-            <img
-              src={client.src}
-              alt={client.name}
-              title={client.name}
-              className="h-32 md:h-56 w-auto object-contain opacity-90 hover:opacity-100 hover:scale-105 transition-all duration-300"
-            />
-          </MagneticDiv>
-        ))}
-      </motion.div>
-    </section>
-  );
-}
-
 type Project = {
   category: string;
   categoryColor: string;
@@ -1409,9 +1362,6 @@ export default function Home() {
           </MagneticButton>
         </motion.div>
       </section>
-
-      {/* CLIENTES */}
-      <ClientLogos label={t.clientsLabel} />
 
       {/* NOSOTROS */}
       <section id="nosotros" className="max-w-6xl mx-auto pt-28 px-4">
