@@ -1657,15 +1657,15 @@ export default function Home() {
       <section className="w-full py-24 border-t border-gray-900 mt-20">
         <h3 className="text-center text-gray-500 mb-8 text-sm tracking-widest uppercase">{t.techLabel}</h3>
 
-        <div className="marquee-wrapper">
+        <div className="marquee-wrapper py-3">
           <div className="marquee-inner">
             {techStack.map((tech, index) => (
-              <span key={`tech-1-${index}`} className="text-3xl md:text-5xl font-bold text-gray-700 hover:text-white transition-colors cursor-default">
+              <span key={`tech-1-${index}`} className="text-3xl md:text-5xl leading-[1.3] pb-2 font-bold text-gray-700 hover:text-white transition-colors cursor-default">
                 {tech}
               </span>
             ))}
             {techStack.map((tech, index) => (
-              <span key={`tech-2-${index}`} className="text-3xl md:text-5xl font-bold text-gray-700 hover:text-white transition-colors cursor-default">
+              <span key={`tech-2-${index}`} className="text-3xl md:text-5xl leading-[1.3] pb-2 font-bold text-gray-700 hover:text-white transition-colors cursor-default">
                 {tech}
               </span>
             ))}
