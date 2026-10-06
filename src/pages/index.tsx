@@ -108,6 +108,7 @@ const content = {
         {
           name: 'START',
           price: '400 - 600',
+          customQuote: false,
           desc: 'Presencia digital profesional. Ideal para profesionales y pequeñas empresas.',
           features: ['Diseño responsive (Hasta 5 secciones)', 'Formulario de contacto', 'Integración WhatsApp & Redes', 'Google Maps & SEO Básico', 'Google Analytics Básico'],
           highlight: false,
@@ -115,22 +116,17 @@ const content = {
         {
           name: 'BUSINESS',
           price: '800 - 1.200',
+          customQuote: false,
           desc: 'Presencia + Captación. Para PyMEs que necesitan convertir visitas en leads.',
           features: ['Todo lo de START', 'Hasta 8-10 páginas personalizadas', 'Meta Pixel + Eventos', 'Analytics Avanzado + Search Console', 'Captura y Base de Datos de Leads', 'Optimización técnica de velocidad'],
           highlight: true,
         },
         {
-          name: 'PRO',
-          price: '1.500 - 2.500',
-          desc: 'Plataforma web empresarial. Procesos digitales y funcionalidades a medida.',
-          features: ['Todo lo de BUSINESS', 'Backend personalizado + Base de Datos', 'Sistema de Login, Roles y Permisos', 'Panel Administrativo a medida', 'APIs, Integraciones & Emails Auto', 'Meta Conversions API + Docker Deploy'],
-          highlight: false,
-        },
-        {
           name: 'ENTERPRISE',
-          price: '3.000+',
-          desc: 'Solución digital corporativa. Infraestructura y desarrollo específico.',
-          features: ['Arquitectura web/catálogo a medida', 'Sistemas internos y Áreas privadas', 'Integración compleja con CRM / ERP', 'Automatizaciones de flujos de trabajo', 'Infraestructura Cloud & Monitoreo', 'Mantenimiento y Soporte SLA'],
+          price: 'Cotización a Medida',
+          customQuote: true,
+          desc: 'Para empresas medianas y grandes: lo desarrollamos 100% a tu medida, integrado a tus sistemas actuales.',
+          features: ['Backend personalizado + Base de Datos', 'Sistema de Login, Roles y Permisos', 'Panel Administrativo a medida', 'Integración compleja con CRM / ERP', 'Infraestructura Cloud & Monitoreo', 'Mantenimiento y Soporte SLA'],
           highlight: false,
         }
       ]
@@ -205,6 +201,8 @@ const content = {
       jobDesc: 'Sitios corporativos, plataformas o apps (Start, Business, Pro).',
       serviceTitle: 'Datos, APIs y Automatización',
       serviceDesc: 'Buscas optimizar procesos, integrar sistemas o crear dashboards.',
+      corporateTitle: 'Proyecto Corporativo / Industrial',
+      corporateDesc: 'Empresas medianas o grandes con sistemas existentes y necesidades a medida.',
       back: '← Cambiar opción',
       nameLabel: 'Nombre y Empresa',
       namePlaceholder: 'Ej: Carlos Gómez - TechLogistics',
@@ -212,9 +210,12 @@ const content = {
       jobMsgPlaceholder: 'Ej: Necesitamos desarrollar un portal para nuestros clientes...',
       serviceMsgLabel: '¿Qué proceso buscás optimizar?',
       serviceMsgPlaceholder: 'Ej: Requerimos automatizar nuestros reportes semanales...',
+      corporateMsgLabel: 'Contanos sobre tu empresa: tamaño, sistemas actuales y qué necesitás',
+      corporateMsgPlaceholder: 'Ej: Somos una empresa de 200+ empleados, usamos SAP y necesitamos integrar...',
       sendButton: 'Iniciar Conversación',
       waJobTemplate: (name: string, msg: string) => `Hola equipo de Aconcagua Digital! Soy ${name || '[nombre]'}. Nos interesa cotizar un desarrollo: ${msg || '[breve descripción]'}`,
       waServiceTemplate: (name: string, msg: string) => `Hola equipo de Aconcagua Digital! Soy ${name || '[nombre]'}. Buscamos ayuda con datos y automatización para nuestra empresa: ${msg || '[breve descripción]'}`,
+      waCorporateTemplate: (name: string, msg: string) => `Hola equipo de Aconcagua Digital! Soy ${name || '[nombre]'}. Te escribo por un proyecto corporativo/industrial: ${msg || '[breve descripción]'}`,
     },
     techLabel: 'Stack Tecnológico & Partners',
   },
@@ -279,6 +280,7 @@ const content = {
         {
           name: 'START',
           price: '400 - 600',
+          customQuote: false,
           desc: 'Professional digital presence. Ideal for independent professionals and small businesses.',
           features: ['Responsive design (Up to 5 sections)', 'Contact form', 'WhatsApp & Social Media integration', 'Google Maps & Basic SEO', 'Basic Google Analytics'],
           highlight: false,
@@ -286,22 +288,17 @@ const content = {
         {
           name: 'BUSINESS',
           price: '800 - 1,200',
+          customQuote: false,
           desc: 'Presence + Lead Generation. For SMBs needing to convert visitors into leads.',
           features: ['Everything in START', 'Up to 8-10 custom pages', 'Meta Pixel + Events setup', 'Advanced Analytics + Search Console', 'Lead Capture & Database', 'Technical speed optimization'],
           highlight: true,
         },
         {
-          name: 'PRO',
-          price: '1,500 - 2,500',
-          desc: 'Corporate web platform. Digital processes and custom functionalities.',
-          features: ['Everything in BUSINESS', 'Custom Backend + Database', 'Login System, Roles & Permissions', 'Custom Administrative Panel', 'APIs, Integrations & Auto Emails', 'Meta Conversions API + Docker Deploy'],
-          highlight: false,
-        },
-        {
           name: 'ENTERPRISE',
-          price: '3,000+',
-          desc: 'Custom corporate digital solution. Tailored architecture and infrastructure.',
-          features: ['Custom web/catalog architecture', 'Internal systems & Private areas', 'Complex CRM / ERP integrations', 'Workflow automations', 'Cloud Infrastructure & Monitoring', 'Ongoing SLA Support & Maintenance'],
+          price: 'Custom Quote',
+          customQuote: true,
+          desc: 'For mid-size and large companies: built 100% to your spec, integrated with your existing systems.',
+          features: ['Custom Backend + Database', 'Login System, Roles & Permissions', 'Custom Administrative Panel', 'Complex CRM / ERP Integrations', 'Cloud Infrastructure & Monitoring', 'Ongoing SLA Support & Maintenance'],
           highlight: false,
         }
       ]
@@ -376,6 +373,8 @@ const content = {
       jobDesc: 'Corporate sites, platforms or apps (Start, Business, Pro).',
       serviceTitle: 'Data, APIs & Automation',
       serviceDesc: 'You want to optimize workflows, integrate systems, or build dashboards.',
+      corporateTitle: 'Corporate / Industrial Project',
+      corporateDesc: 'Mid-size or large companies with existing systems and custom needs.',
       back: '← Change option',
       nameLabel: 'Name and Company',
       namePlaceholder: 'E.g.: John Doe - TechLogistics',
@@ -383,9 +382,12 @@ const content = {
       jobMsgPlaceholder: "E.g.: We need to develop a B2B portal for our clients...",
       serviceMsgLabel: 'What process do you want to optimize?',
       serviceMsgPlaceholder: 'E.g.: We need to automate our weekly reports...',
+      corporateMsgLabel: 'Tell us about your company: size, current systems, and what you need',
+      corporateMsgPlaceholder: "E.g.: We're a 200+ employee company, we use SAP and need to integrate...",
       sendButton: 'Start Conversation',
       waJobTemplate: (name: string, msg: string) => `Hi Aconcagua Digital team! I'm ${name || '[name]'}. We are interested in a web project: ${msg || '[brief description]'}`,
       waServiceTemplate: (name: string, msg: string) => `Hi Aconcagua Digital team! I'm ${name || '[name]'}. We need help with data and automation: ${msg || '[brief description]'}`,
+      waCorporateTemplate: (name: string, msg: string) => `Hi Aconcagua Digital team! I'm ${name || '[name]'}. I'm reaching out about a corporate/industrial project: ${msg || '[brief description]'}`,
     },
     techLabel: 'Tech Stack & Partners',
   },
@@ -1039,12 +1041,16 @@ function FAQAccordion({ items }: { items: { q: string; a: string }[] }) {
 // COMPONENTE: Formulario inteligente
 // =========================================
 function SmartContactForm({ t }: { t: typeof content.es.contact }) {
-  const [type, setType] = useState<'trabajo' | 'servicio' | null>(null);
+  const [type, setType] = useState<'trabajo' | 'servicio' | 'corporativo' | null>(null);
   const [name, setName] = useState('');
   const [message, setMessage] = useState('');
 
   const waMessage =
-    type === 'trabajo' ? t.waJobTemplate(name, message) : t.waServiceTemplate(name, message);
+    type === 'trabajo'
+      ? t.waJobTemplate(name, message)
+      : type === 'corporativo'
+      ? t.waCorporateTemplate(name, message)
+      : t.waServiceTemplate(name, message);
 
   const waHref = `https://wa.me/5493513867474?text=${encodeURIComponent(waMessage)}`;
 
@@ -1070,7 +1076,7 @@ function SmartContactForm({ t }: { t: typeof content.es.contact }) {
         className="bg-[#0d0d0d] border border-gray-800 rounded-2xl p-6 md:p-10"
       >
         {!type ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <button
               onClick={() => setType('trabajo')}
               className="p-6 rounded-xl border border-gray-800 hover:border-white bg-[#111111] hover:bg-white/5 transition-all text-left"
@@ -1092,6 +1098,18 @@ function SmartContactForm({ t }: { t: typeof content.es.contact }) {
               </svg>
               <div className="font-bold text-white mb-1">{t.serviceTitle}</div>
               <div className="text-sm text-gray-500">{t.serviceDesc}</div>
+            </button>
+            <button
+              onClick={() => setType('corporativo')}
+              className="p-6 rounded-xl border border-gray-800 hover:border-white bg-[#111111] hover:bg-white/5 transition-all text-left"
+            >
+              <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" className="text-gray-500 mb-3">
+                <path d="M3 21h18"></path>
+                <path d="M5 21V7l7-4 7 4v14"></path>
+                <path d="M9 9h1m4 0h1m-6 4h1m4 0h1m-6 4h1m4 0h1"></path>
+              </svg>
+              <div className="font-bold text-white mb-1">{t.corporateTitle}</div>
+              <div className="text-sm text-gray-500">{t.corporateDesc}</div>
             </button>
           </div>
         ) : (
@@ -1120,13 +1138,13 @@ function SmartContactForm({ t }: { t: typeof content.es.contact }) {
               </div>
               <div>
                 <label className="text-xs uppercase tracking-widest text-gray-500 mb-2 block">
-                  {type === 'trabajo' ? t.jobMsgLabel : t.serviceMsgLabel}
+                  {type === 'trabajo' ? t.jobMsgLabel : type === 'corporativo' ? t.corporateMsgLabel : t.serviceMsgLabel}
                 </label>
                 <textarea
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   rows={3}
-                  placeholder={type === 'trabajo' ? t.jobMsgPlaceholder : t.serviceMsgPlaceholder}
+                  placeholder={type === 'trabajo' ? t.jobMsgPlaceholder : type === 'corporativo' ? t.corporateMsgPlaceholder : t.serviceMsgPlaceholder}
                   className="w-full bg-black border border-gray-800 rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-white transition-colors resize-none"
                 />
               </div>
@@ -1495,7 +1513,7 @@ export default function Home() {
       </section>
 
       {/* PLANES Y PRECIOS */}
-      <section id="planes" className="max-w-7xl mx-auto pt-28 px-4">
+      <section id="planes" className="max-w-5xl mx-auto pt-28 px-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -1508,7 +1526,7 @@ export default function Home() {
           <p className="mt-4 text-gray-400 text-lg">{t.pricing.subtitle}</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
           {t.pricing.items.map((plan) => (
             <div
               key={plan.name}
@@ -1533,8 +1551,10 @@ export default function Home() {
                 <p className="text-gray-400 text-sm mb-6 min-h-[3.5rem]">{plan.desc}</p>
 
                 <div className="mb-6 pb-6 border-b border-gray-800 flex items-baseline gap-2">
-                  <span className="text-gray-500 font-medium text-sm">USD</span>
-                  <span className="text-2xl lg:text-3xl font-extrabold text-white whitespace-nowrap tracking-tight">{plan.price}</span>
+                  {!plan.customQuote && <span className="text-gray-500 font-medium text-sm">USD</span>}
+                  <span className={`font-extrabold text-white whitespace-nowrap tracking-tight ${plan.customQuote ? 'text-xl lg:text-2xl' : 'text-2xl lg:text-3xl'}`}>
+                    {plan.price}
+                  </span>
                 </div>
 
                 <ul className="space-y-4 mb-8 flex-grow">
