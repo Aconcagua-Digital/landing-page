@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Head from 'next/head';
 import {
   motion,
   AnimatePresence,
@@ -67,7 +68,7 @@ const content = {
         { value: 2, suffix: '', label: 'Sitios en Producción', href: undefined as string | undefined },
         { value: 500, suffix: '+', label: 'Usuarios Mensuales Impactados', href: undefined as string | undefined },
         { value: 1, suffix: '', label: 'Integración Meta CAPI en Producción', href: undefined as string | undefined },
-        { value: 96, suffix: '', label: 'Lighthouse Performance (Móvil)', href: 'https://pagespeed.web.dev/analysis/https-aconcagua-digital-vercel-app/ktmxkpxvum?form_factor=mobile' as string | undefined },
+        { value: 99, suffix: '', label: 'Lighthouse Performance (Móvil)', href: 'https://pagespeed.web.dev/analysis/https-aconcagua-digital-com/635ytymz75?form_factor=mobile' as string | undefined },
       ],
     },
     process: {
@@ -239,7 +240,7 @@ const content = {
         { value: 2, suffix: '', label: 'Sites in Production', href: undefined as string | undefined },
         { value: 500, suffix: '+', label: 'Monthly Users Impacted', href: undefined as string | undefined },
         { value: 1, suffix: '', label: 'Live Meta CAPI Integration', href: undefined as string | undefined },
-        { value: 96, suffix: '', label: 'Lighthouse Performance (Mobile)', href: 'https://pagespeed.web.dev/analysis/https-aconcagua-digital-vercel-app/ktmxkpxvum?form_factor=mobile' as string | undefined },
+        { value: 99, suffix: '', label: 'Lighthouse Performance (Mobile)', href: 'https://pagespeed.web.dev/analysis/https-aconcagua-digital-com/635ytymz75?form_factor=mobile' as string | undefined },
       ],
     },
     process: {
@@ -1175,17 +1176,6 @@ export default function Home() {
   const t = content[locale];
 
   useEffect(() => {
-    document.title = `Aconcagua Digital | ${t.hero.subtitle}`;
-    let meta = document.querySelector('meta[name="description"]');
-    if (!meta) {
-      meta = document.createElement('meta');
-      meta.setAttribute('name', 'description');
-      document.head.appendChild(meta);
-    }
-    meta.setAttribute('content', t.hero.description);
-  }, [t]);
-
-  useEffect(() => {
     const observers: IntersectionObserver[] = [];
     NAV_IDS.forEach((id) => {
       const el = document.getElementById(id);
@@ -1259,6 +1249,27 @@ export default function Home() {
 
   return (
     <main className="min-h-screen w-full bg-[#050505] text-white font-sans overflow-hidden">
+      <Head>
+        <title>{`Aconcagua Digital | ${t.hero.subtitle}`}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content={t.hero.description} />
+        <link rel="canonical" href="https://aconcagua-digital.com/" />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Aconcagua Digital" />
+        <meta property="og:url" content="https://aconcagua-digital.com/" />
+        <meta property="og:title" content={`Aconcagua Digital | ${t.hero.subtitle}`} />
+        <meta property="og:description" content={t.hero.description} />
+        <meta property="og:image" content="https://aconcagua-digital.com/og-image.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`Aconcagua Digital | ${t.hero.subtitle}`} />
+        <meta name="twitter:description" content={t.hero.description} />
+        <meta name="twitter:image" content="https://aconcagua-digital.com/og-image.png" />
+      </Head>
+
       <ScrollProgress />
       <AmbientGlow />
       <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} labels={t.projects.modal} />
