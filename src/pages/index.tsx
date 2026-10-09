@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 import {
   motion,
   AnimatePresence,
@@ -140,12 +141,15 @@ const content = {
       modal: { problema: 'Desafío del Negocio', accion: 'Solución Implementada', resultado: 'Impacto Comercial' },
       items: [
         {
-          category: 'SOFTWARE & LOGÍSTICA', categoryColor: 'text-blue-400', title: 'Ticketing App & CMS a Medida',
-          desc: 'Desarrollo end-to-end de un ecosistema para gestión y validación de entradas. Autenticación y escáner QR nativo en tiempo real.',
-          tags: ['React Native', 'FastAPI', 'PostgreSQL'],
-          problema: 'Los organizadores de eventos no tenían forma de validar entradas en tiempo real ni de evitar fraudes o duplicados en el ingreso masivo.',
-          accion: 'Diseñamos y desarrollamos un ecosistema completo: app móvil con React Native para el staff, backend robusto en FastAPI, y base de datos PostgreSQL.',
-          resultado: 'Un sistema autónomo en producción capaz de procesar cientos de escaneos por minuto sin fricción operativa.',
+          category: 'SAAS · EN DESARROLLO', categoryColor: 'text-blue-400', title: 'Dashboards de Campañas Meta',
+          desc: 'Plataforma que analiza campañas de Meta Ads y arma dashboards por etapa del embudo, con insights en lenguaje simple.',
+          tags: ['FastAPI', 'React', 'TypeScript'],
+          image: '/case-dashboard.jpg',
+          frameLabel: 'demo · datos de muestra',
+          problema: 'Medir campañas de Meta Ads suele implicar juntar métricas a mano, sin un criterio estadístico claro y con reportes difíciles de explicar al cliente.',
+          accion: 'Estamos desarrollando una plataforma con FastAPI y React que agrupa las campañas por objetivo y etapa del embudo, compara contra el período anterior y traduce los números en insights en lenguaje simple. Incluye modelos de atribución, tests de lift y regresión múltiple, con reglas explícitas de fiabilidad para no sacar conclusiones de datos insuficientes.',
+          resultadoLabel: 'Estado Actual',
+          resultado: 'En desarrollo. La versión actual funciona con datos de muestra y el próximo paso es conectar la API real de Meta.',
         },
         {
           category: 'INFRAESTRUCTURA WEB', categoryColor: 'text-yellow-400', title: 'Sentidos - Plataforma Corporativa',
@@ -218,7 +222,18 @@ const content = {
       waServiceTemplate: (name: string, msg: string) => `Hola equipo de Aconcagua Digital! Soy ${name || '[nombre]'}. Buscamos ayuda con datos y automatización para nuestra empresa: ${msg || '[breve descripción]'}`,
       waCorporateTemplate: (name: string, msg: string) => `Hola equipo de Aconcagua Digital! Soy ${name || '[nombre]'}. Te escribo por un proyecto corporativo/industrial: ${msg || '[breve descripción]'}`,
     },
-    techLabel: 'Stack Tecnológico & Partners',
+    techLabel: 'Stack Tecnológico',
+    footer: {
+      tagline: 'Agencia de Desarrollo Web & Ecosistemas Digitales.',
+      location: 'Córdoba, Argentina',
+      sectionsTitle: 'Secciones',
+      contactTitle: 'Contacto',
+      whatsapp: 'WhatsApp',
+      faq: 'Preguntas',
+      contact: 'Contacto',
+      rights: 'Todos los derechos reservados.',
+      privacy: 'Política de Privacidad',
+    },
   },
   en: {
     nav: { inicio: 'Home', nosotros: 'About Us', proceso: 'Methodology', servicios: 'Services', planes: 'Pricing', proyectos: 'Cases' },
@@ -312,12 +327,15 @@ const content = {
       modal: { problema: 'Business Challenge', accion: 'Implemented Solution', resultado: 'Commercial Impact' },
       items: [
         {
-          category: 'SOFTWARE & LOGISTICS', categoryColor: 'text-blue-400', title: 'Custom Ticketing App & CMS',
-          desc: 'End-to-end development of a ticket management ecosystem with real-time native QR scanning.',
-          tags: ['React Native', 'FastAPI', 'PostgreSQL'],
-          problema: 'Event organizers lacked a reliable way to validate tickets in real-time, leading to potential fraud and bottlenecks during mass entry.',
-          accion: 'We designed a complete ecosystem: a React Native mobile app for staff, a robust FastAPI backend, and a PostgreSQL database.',
-          resultado: 'An autonomous production system capable of processing hundreds of scans per minute with zero operational friction.',
+          category: 'SAAS · IN DEVELOPMENT', categoryColor: 'text-blue-400', title: 'Meta Campaign Dashboards',
+          desc: 'A platform that analyzes Meta Ads campaigns and builds funnel-stage dashboards with plain-language insights.',
+          tags: ['FastAPI', 'React', 'TypeScript'],
+          image: '/case-dashboard.jpg',
+          frameLabel: 'demo · sample data',
+          problema: 'Measuring Meta Ads campaigns often means gathering metrics by hand, with no clear statistical criteria and reports that are hard to explain to the client.',
+          accion: 'We are building a platform with FastAPI and React that groups campaigns by objective and funnel stage, compares against the previous period and turns the numbers into plain-language insights. It includes attribution models, lift tests and multiple regression, with explicit reliability rules so conclusions are not drawn from insufficient data.',
+          resultadoLabel: 'Current Status',
+          resultado: 'In development. The current build runs on sample data and the next step is connecting the real Meta API.',
         },
         {
           category: 'WEB INFRASTRUCTURE', categoryColor: 'text-yellow-400', title: 'Sentidos - Corporate Platform',
@@ -390,7 +408,18 @@ const content = {
       waServiceTemplate: (name: string, msg: string) => `Hi Aconcagua Digital team! I'm ${name || '[name]'}. We need help with data and automation: ${msg || '[brief description]'}`,
       waCorporateTemplate: (name: string, msg: string) => `Hi Aconcagua Digital team! I'm ${name || '[name]'}. I'm reaching out about a corporate/industrial project: ${msg || '[brief description]'}`,
     },
-    techLabel: 'Tech Stack & Partners',
+    techLabel: 'Tech Stack',
+    footer: {
+      tagline: 'Web Development & Digital Ecosystems Agency.',
+      location: 'Córdoba, Argentina',
+      sectionsTitle: 'Sections',
+      contactTitle: 'Contact',
+      whatsapp: 'WhatsApp',
+      faq: 'FAQ',
+      contact: 'Contact',
+      rights: 'All rights reserved.',
+      privacy: 'Privacy Policy',
+    },
   },
 };
 
@@ -890,6 +919,8 @@ type Project = {
   resultado: string;
   image?: string;
   liveUrl?: string;
+  frameLabel?: string;
+  resultadoLabel?: string;
 };
 
 // =========================================
@@ -972,7 +1003,7 @@ function ProjectModal({
                 <p className="text-gray-300 leading-relaxed">{project.accion}</p>
               </div>
               <div>
-                <div className="text-xs uppercase tracking-widest text-gray-500 mb-1">{labels.resultado}</div>
+                <div className="text-xs uppercase tracking-widest text-gray-500 mb-1">{project.resultadoLabel ?? labels.resultado}</div>
                 <p className="text-gray-300 leading-relaxed">{project.resultado}</p>
               </div>
             </div>
@@ -1616,9 +1647,9 @@ export default function Home() {
                     <span className="h-2 w-2 rounded-full bg-red-500/70" />
                     <span className="h-2 w-2 rounded-full bg-yellow-500/70" />
                     <span className="h-2 w-2 rounded-full bg-green-500/70" />
-                    {project.liveUrl && (
+                    {(project.liveUrl || project.frameLabel) && (
                       <span className="ml-2 text-[10px] text-gray-500 font-mono truncate">
-                        {project.liveUrl.replace(/^https?:\/\//, '')}
+                        {project.liveUrl ? project.liveUrl.replace(/^https?:\/\//, '') : project.frameLabel}
                       </span>
                     )}
                   </div>
@@ -1703,6 +1734,61 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* FOOTER */}
+      <footer className="w-full border-t border-gray-900 px-4 py-14">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
+          <div>
+            <a href="#inicio" className="text-2xl font-bold tracking-tighter text-white">
+              Aconcagua<span className="text-gray-500">.</span>
+            </a>
+            <p className="mt-3 text-sm text-gray-500 max-w-xs">{t.footer.tagline}</p>
+            <p className="mt-2 text-sm text-gray-600">{t.footer.location}</p>
+          </div>
+
+          <nav aria-label={t.footer.sectionsTitle}>
+            <h4 className="text-xs font-bold tracking-widest uppercase text-gray-500 mb-4">{t.footer.sectionsTitle}</h4>
+            <ul className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
+              {[
+                { href: '#nosotros', label: t.nav.nosotros },
+                { href: '#proceso', label: t.nav.proceso },
+                { href: '#servicios', label: t.nav.servicios },
+                { href: '#planes', label: t.nav.planes },
+                { href: '#proyectos', label: t.nav.proyectos },
+                { href: '#faq', label: t.footer.faq },
+                { href: '#contacto', label: t.footer.contact },
+              ].map((link) => (
+                <li key={link.href}>
+                  <a href={link.href} className="text-gray-400 hover:text-white transition-colors">
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div>
+            <h4 className="text-xs font-bold tracking-widest uppercase text-gray-500 mb-4">{t.footer.contactTitle}</h4>
+            <a
+              href="https://wa.me/5493513867474"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-gray-400 hover:text-white transition-colors"
+            >
+              {t.footer.whatsapp}
+            </a>
+          </div>
+        </div>
+
+        <div className="max-w-6xl mx-auto mt-12 pt-6 border-t border-gray-900 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs text-gray-600">
+          <p>
+            © {new Date().getFullYear()} Aconcagua Digital. {t.footer.rights}
+          </p>
+          <Link href="/privacidad" className="hover:text-white transition-colors">
+            {t.footer.privacy}
+          </Link>
+        </div>
+      </footer>
 
     </main>
   );
