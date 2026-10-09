@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import { trackMeta } from '../lib/meta-track';
 import {
   motion,
   AnimatePresence,
@@ -1185,6 +1186,7 @@ function SmartContactForm({ t }: { t: typeof content.es.contact }) {
                 href={waHref}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackMeta('Lead')}
                 className="w-full mt-2 px-8 py-4 bg-white text-black font-semibold rounded-full hover:bg-gray-200 transition-colors text-center flex items-center justify-center gap-2"
               >
                 {t.sendButton}
@@ -1773,6 +1775,7 @@ export default function Home() {
               href="https://wa.me/5493513867474"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackMeta('Contact')}
               className="text-sm text-gray-400 hover:text-white transition-colors"
             >
               {t.footer.whatsapp}
