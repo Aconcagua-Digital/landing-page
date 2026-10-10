@@ -67,10 +67,10 @@ const content = {
       p2: 'Somos el puente entre los objetivos de tu empresa y el entorno digital. Fusionamos desarrollo de software full-stack, automatización y análisis de datos para crear soluciones que impactan directamente en la rentabilidad de nuestros clientes.',
       p3: 'Ya sea desarrollando una plataforma web a medida para captar clientes corporativos, auditando el rendimiento con dashboards en tiempo real, o automatizando procesos manuales, construimos la infraestructura que tu negocio necesita para liderar su sector.',
       stats: [
-        { value: 2, suffix: '', label: 'Sitios en Producción', href: undefined as string | undefined },
-        { value: 500, suffix: '+', label: 'Usuarios Mensuales Impactados', href: undefined as string | undefined },
-        { value: 1, suffix: '', label: 'Integración Meta CAPI en Producción', href: undefined as string | undefined },
-        { value: 99, suffix: '', label: 'Lighthouse Performance (Móvil)', href: 'https://pagespeed.web.dev/analysis/https-aconcagua-digital-com/635ytymz75?form_factor=mobile' as string | undefined },
+        { value: 2, value2: undefined as number | undefined, suffix: '', label: 'Sitios en Producción', href: undefined as string | undefined },
+        { value: 500, value2: undefined as number | undefined, suffix: '+', label: 'Usuarios Mensuales Impactados', href: undefined as string | undefined },
+        { value: 1, value2: undefined as number | undefined, suffix: '', label: 'Integración Meta CAPI en Producción', href: undefined as string | undefined },
+        { value: 99, value2: 100 as number | undefined, suffix: '', label: 'Lighthouse Performance (Móvil\u00A0·\u00A0Desktop)', href: 'https://pagespeed.web.dev/analysis/https-aconcagua-digital-com/5zmb0ugyig?form_factor=mobile' as string | undefined },
       ],
     },
     process: {
@@ -253,10 +253,10 @@ const content = {
       p2: 'We serve as the bridge between your business goals and the digital environment. We merge full-stack software development, automation, and data analytics to build solutions that directly impact our clients\' profitability.',
       p3: 'Whether it is developing a custom web platform to attract corporate clients, auditing performance with real-time dashboards, or automating manual workflows, we build the technical infrastructure your business needs to lead its industry.',
       stats: [
-        { value: 2, suffix: '', label: 'Sites in Production', href: undefined as string | undefined },
-        { value: 500, suffix: '+', label: 'Monthly Users Impacted', href: undefined as string | undefined },
-        { value: 1, suffix: '', label: 'Live Meta CAPI Integration', href: undefined as string | undefined },
-        { value: 99, suffix: '', label: 'Lighthouse Performance (Mobile)', href: 'https://pagespeed.web.dev/analysis/https-aconcagua-digital-com/635ytymz75?form_factor=mobile' as string | undefined },
+        { value: 2, value2: undefined as number | undefined, suffix: '', label: 'Sites in Production', href: undefined as string | undefined },
+        { value: 500, value2: undefined as number | undefined, suffix: '+', label: 'Monthly Users Impacted', href: undefined as string | undefined },
+        { value: 1, value2: undefined as number | undefined, suffix: '', label: 'Live Meta CAPI Integration', href: undefined as string | undefined },
+        { value: 99, value2: 100 as number | undefined, suffix: '', label: 'Lighthouse Performance (Mobile\u00A0·\u00A0Desktop)', href: 'https://pagespeed.web.dev/analysis/https-aconcagua-digital-com/5zmb0ugyig?form_factor=mobile' as string | undefined },
       ],
     },
     process: {
@@ -1466,8 +1466,14 @@ export default function Home() {
                     contentClassName="flex flex-col items-center"
                     className="h-full p-6 bg-[#111111] border border-gray-800 rounded-2xl flex flex-col justify-center items-center text-center hover:border-gray-600 transition-colors"
                   >
-                    <span className="text-3xl lg:text-4xl font-extrabold text-white mb-2">
+                    <span className="text-3xl lg:text-4xl font-extrabold text-white mb-2 whitespace-nowrap">
                       <CountUp value={stat.value} suffix={stat.suffix} />
+                      {stat.value2 !== undefined && (
+                        <>
+                          <span className="text-gray-600 mx-2 font-normal">·</span>
+                          <CountUp value={stat.value2} suffix={stat.suffix} />
+                        </>
+                      )}
                     </span>
                     <span className="text-sm text-gray-500 font-medium">{stat.label}</span>
                   </SpotlightCard>
@@ -1478,8 +1484,14 @@ export default function Home() {
                   contentClassName="flex flex-col items-center"
                   className="p-6 bg-[#111111] border border-gray-800 rounded-2xl flex flex-col justify-center items-center text-center"
                 >
-                  <span className="text-3xl lg:text-4xl font-extrabold text-white mb-2">
+                  <span className="text-3xl lg:text-4xl font-extrabold text-white mb-2 whitespace-nowrap">
                     <CountUp value={stat.value} suffix={stat.suffix} />
+                    {stat.value2 !== undefined && (
+                      <>
+                        <span className="text-gray-600 mx-2 font-normal">·</span>
+                        <CountUp value={stat.value2} suffix={stat.suffix} />
+                      </>
+                    )}
                   </span>
                   <span className="text-sm text-gray-500 font-medium">{stat.label}</span>
                 </SpotlightCard>
