@@ -1489,14 +1489,14 @@ export default function Home() {
           <div className="mb-6 flex justify-center">
             <AvailabilityIndicator label={t.availability} />
           </div>
-          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tighter mb-4 text-white drop-shadow-lg">
+          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tighter mb-0 text-white drop-shadow-lg">
             <RevealWords text="Aconcagua Digital" />
           </h1>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-xl md:text-3xl text-gray-300 font-medium mb-4 drop-shadow-md"
+            className="text-xl md:text-3xl text-gray-300 font-medium -mt-1 mb-4 drop-shadow-md"
           >
             {t.hero.subtitle}
           </motion.h2>
