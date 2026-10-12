@@ -13,6 +13,24 @@ import {
   useTransform,
 } from 'framer-motion';
 
+// Datos de contacto en un solo lugar: si cambiás el mail, se cambia acá y listo.
+const CONTACT_EMAIL = 'aconcdigital@gmail.com';
+const WHATSAPP_URL = 'https://wa.me/5493513867474';
+
+// Datos para Google (resultado de búsqueda). No se ven en la página, solo los leen los buscadores.
+const STRUCTURED_DATA = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'Aconcagua Digital',
+  url: 'https://aconcagua-digital.com/',
+  image: 'https://aconcagua-digital.com/og-image.png',
+  description: 'Desarrollo web a medida, automatización de datos y medición de campañas para empresas.',
+  founder: { '@type': 'Person', name: 'Juan Ignacio Araujo' },
+  address: { '@type': 'PostalAddress', addressLocality: 'Córdoba', addressCountry: 'AR' },
+  areaServed: 'Worldwide',
+  knowsLanguage: ['es', 'en'],
+};
+
 // =========================================
 // HOOK: Detección y cambio de idioma
 // =========================================
@@ -51,13 +69,19 @@ function useLocale() {
 // =========================================
 const content = {
   es: {
-    nav: { inicio: 'Inicio', nosotros: 'Nosotros', proceso: 'Metodología', servicios: 'Servicios', planes: 'Planes', proyectos: 'Casos' },
+    nav: { inicio: 'Inicio', nosotros: 'Nosotros', proceso: 'Metodología', servicios: 'Servicios', planes: 'Planes', proyectos: 'Proyectos' },
     availability: 'Disponibles para nuevos proyectos',
+    seoTitle: 'Aconcagua Digital | Desarrollo web a medida y automatización',
+    floatingWa: {
+      label: 'WhatsApp',
+      aria: 'Escribinos por WhatsApp',
+      message: 'Hola! Vi la web de Aconcagua Digital y quiero consultar por un proyecto.',
+    },
     hablemos: 'Agendar Asesoría',
     hero: {
-      subtitle: 'Agencia de Desarrollo Web & Ecosistemas Digitales',
-      description: 'Construimos infraestructura digital, automatización de datos y plataformas a medida para escalar las operaciones y ventas de tu empresa.',
-      ctaProjects: 'Explorar Casos',
+      subtitle: 'Desarrollo web a medida para mostrar tu empresa de otra manera',
+      description: 'Creamos sitios rápidos y sistemas a medida, automatizamos tus reportes y medimos cada campaña, para que sepas qué te trae consultas y ventas.',
+      ctaProjects: 'Ver Proyectos',
       ctaPricing: 'Ver Planes',
       ctaCall: 'Solicitar Presupuesto',
     },
@@ -135,8 +159,8 @@ const content = {
       ]
     },
     projects: {
-      title: 'Casos de Éxito',
-      subtitle: 'Proyectos donde la tecnología potenció el negocio.',
+      title: 'Proyectos',
+      subtitle: 'Lo que construimos, con el desafío y la solución de cada uno.',
       viewCase: 'Ver detalles técnicos',
       liveSite: 'Ver en vivo',
       modal: { problema: 'Desafío del Negocio', accion: 'Solución Implementada', resultado: 'Impacto Comercial' },
@@ -210,6 +234,7 @@ const content = {
       corporateTitle: 'Proyecto Corporativo / Industrial',
       corporateDesc: 'Empresas medianas o grandes con sistemas existentes y necesidades a medida.',
       back: '← Cambiar opción',
+      emailPrompt: '¿Preferís escribirnos por mail?',
       nameLabel: 'Nombre y Empresa',
       namePlaceholder: 'Ej: Carlos Gómez - TechLogistics',
       jobMsgLabel: 'Describí el proyecto o plataforma',
@@ -237,13 +262,19 @@ const content = {
     },
   },
   en: {
-    nav: { inicio: 'Home', nosotros: 'About Us', proceso: 'Methodology', servicios: 'Services', planes: 'Pricing', proyectos: 'Cases' },
+    nav: { inicio: 'Home', nosotros: 'About Us', proceso: 'Methodology', servicios: 'Services', planes: 'Pricing', proyectos: 'Projects' },
     availability: 'Available for new partnerships',
+    seoTitle: 'Aconcagua Digital | Custom Web Development & Automation',
+    floatingWa: {
+      label: 'WhatsApp',
+      aria: 'Message us on WhatsApp',
+      message: "Hi! I saw the Aconcagua Digital website and I'd like to ask about a project.",
+    },
     hablemos: "Book a Consultation",
     hero: {
-      subtitle: 'Web Development & Digital Ecosystems Agency',
-      description: 'We build digital infrastructure, automate data pipelines, and craft custom platforms to scale your business operations and sales.',
-      ctaProjects: 'Explore Case Studies',
+      subtitle: 'Custom web development that shows your business in a new light',
+      description: 'We build fast websites and custom systems, automate your reporting and track every campaign, so you know what actually brings you inquiries and sales.',
+      ctaProjects: 'View Projects',
       ctaPricing: 'View Pricing',
       ctaCall: 'Request a Proposal',
     },
@@ -321,8 +352,8 @@ const content = {
       ]
     },
     projects: {
-      title: 'Case Studies',
-      subtitle: 'Projects where technology drove business growth.',
+      title: 'Projects',
+      subtitle: 'What we built, with the challenge and the solution behind each one.',
       viewCase: 'View technical details',
       liveSite: 'View live site',
       modal: { problema: 'Business Challenge', accion: 'Implemented Solution', resultado: 'Commercial Impact' },
@@ -396,6 +427,7 @@ const content = {
       corporateTitle: 'Corporate / Industrial Project',
       corporateDesc: 'Mid-size or large companies with existing systems and custom needs.',
       back: '← Change option',
+      emailPrompt: 'Prefer email?',
       nameLabel: 'Name and Company',
       namePlaceholder: 'E.g.: John Doe - TechLogistics',
       jobMsgLabel: 'Describe the project',
@@ -1196,7 +1228,75 @@ function SmartContactForm({ t }: { t: typeof content.es.contact }) {
           </motion.div>
         )}
       </motion.div>
+
+      <p className="mt-8 text-center text-sm text-gray-500">
+        {t.emailPrompt}{' '}
+        <a
+          href={`mailto:${CONTACT_EMAIL}`}
+          className="text-gray-300 underline underline-offset-4 hover:text-white transition-colors"
+        >
+          {CONTACT_EMAIL}
+        </a>
+      </p>
     </section>
+  );
+}
+
+// Botón flotante de WhatsApp: aparece cuando la persona baja un poco
+// y se esconde cuando ya está viendo la sección de contacto.
+function FloatingWhatsApp({ label, ariaLabel, message }: { label: string; ariaLabel: string; message: string }) {
+  const [scrolled, setScrolled] = useState(false);
+  const [enContacto, setEnContacto] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 500);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    const el = document.getElementById('contacto');
+    if (!el) return;
+    const observer = new IntersectionObserver(([entry]) => setEnContacto(entry.isIntersecting), { threshold: 0.1 });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <AnimatePresence>
+      {scrolled && !enContacto && (
+        <motion.a
+          key="floating-whatsapp"
+          href={`${WHATSAPP_URL}?text=${encodeURIComponent(message)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={ariaLabel}
+          onClick={() => trackMeta('Contact')}
+          initial={{ opacity: 0, y: 16, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 16, scale: 0.95 }}
+          transition={{ duration: 0.25 }}
+          style={{ bottom: 'max(1rem, env(safe-area-inset-bottom))' }}
+          className="fixed right-4 z-30 flex items-center gap-2 px-5 py-3 rounded-full bg-white text-black text-sm font-bold shadow-lg shadow-black/50 hover:bg-gray-200 transition-colors"
+        >
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+            className="text-green-600"
+          >
+            <path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.7-.8L3 21l1.9-5.1A8.4 8.4 0 0 1 3.2 11.5C3.2 6.8 7.1 3 12 3s9 3.8 9 8.5z" />
+          </svg>
+          {label}
+        </motion.a>
+      )}
+    </AnimatePresence>
   );
 }
 
@@ -1283,7 +1383,7 @@ export default function Home() {
   return (
     <main className="min-h-screen w-full bg-[#050505] text-white font-sans overflow-hidden">
       <Head>
-        <title>{`Aconcagua Digital | ${t.hero.subtitle}`}</title>
+        <title>{t.seoTitle}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content={t.hero.description} />
         <link rel="canonical" href="https://aconcagua-digital.com/" />
@@ -1291,22 +1391,29 @@ export default function Home() {
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Aconcagua Digital" />
         <meta property="og:url" content="https://aconcagua-digital.com/" />
-        <meta property="og:title" content={`Aconcagua Digital | ${t.hero.subtitle}`} />
+        <meta property="og:title" content={t.seoTitle} />
         <meta property="og:description" content={t.hero.description} />
         <meta property="og:image" content="https://aconcagua-digital.com/og-image.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
 
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`Aconcagua Digital | ${t.hero.subtitle}`} />
+        <meta name="twitter:title" content={t.seoTitle} />
         <meta name="twitter:description" content={t.hero.description} />
         <meta name="twitter:image" content="https://aconcagua-digital.com/og-image.png" />
+
+        <script
+          key="structured-data"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED_DATA) }}
+        />
       </Head>
 
       <ScrollProgress />
       <AmbientGlow />
       <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} labels={t.projects.modal} />
       <MobileMenu open={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} labels={t.nav} hablemos={t.hablemos} />
+      <FloatingWhatsApp label={t.floatingWa.label} ariaLabel={t.floatingWa.aria} message={t.floatingWa.message} />
 
       {/* HEADER */}
       <header className="fixed top-0 w-full z-50 flex justify-center px-4 pt-3 md:pt-4">
@@ -1784,13 +1891,19 @@ export default function Home() {
           <div>
             <h4 className="text-xs font-bold tracking-widest uppercase text-gray-500 mb-4">{t.footer.contactTitle}</h4>
             <a
-              href="https://wa.me/5493513867474"
+              href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackMeta('Contact')}
-              className="text-sm text-gray-400 hover:text-white transition-colors"
+              className="block text-sm text-gray-400 hover:text-white transition-colors"
             >
               {t.footer.whatsapp}
+            </a>
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              className="block mt-2 text-sm text-gray-400 hover:text-white transition-colors"
+            >
+              {CONTACT_EMAIL}
             </a>
           </div>
         </div>
