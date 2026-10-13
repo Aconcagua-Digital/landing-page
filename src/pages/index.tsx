@@ -839,16 +839,16 @@ function AvailabilityIndicator({ label }: { label: string }) {
 // =========================================
 // COMPONENTE: Nav links
 // =========================================
-const NAV_IDS = ['inicio', 'nosotros', 'proceso', 'servicios', 'planes', 'proyectos'] as const;
+const NAV_IDS = ['inicio', 'nosotros', 'servicios', 'planes', 'proyectos', 'proceso'] as const;
 
 function NavLinks({ activeSection, labels }: { activeSection: string; labels: typeof content.es.nav }) {
   const links = [
     { id: 'inicio', label: labels.inicio },
     { id: 'nosotros', label: labels.nosotros },
-    { id: 'proceso', label: labels.proceso },
     { id: 'servicios', label: labels.servicios },
     { id: 'planes', label: labels.planes },
     { id: 'proyectos', label: labels.proyectos },
+    { id: 'proceso', label: labels.proceso },
   ];
   return (
     <nav className="hidden xl:flex items-center gap-1 text-sm font-medium bg-white/5 border border-white/10 rounded-full p-1">
@@ -891,10 +891,10 @@ function MobileMenu({
   const links = [
     { id: 'inicio', label: labels.inicio },
     { id: 'nosotros', label: labels.nosotros },
-    { id: 'proceso', label: labels.proceso },
     { id: 'servicios', label: labels.servicios },
     { id: 'planes', label: labels.planes },
     { id: 'proyectos', label: labels.proyectos },
+    { id: 'proceso', label: labels.proceso },
   ];
 
   return (
@@ -1339,6 +1339,22 @@ export default function Home() {
   const { scrollY } = useScroll();
   const videoY = useTransform(scrollY, [0, 600], [0, 150]);
 
+  // En un iPhone con "Modo de bajo consumo" el video de fondo no arranca solo y Safari
+  // muestra un botón de play encima del texto. Si el navegador no deja reproducirlo,
+  // escondemos el video y queda el fondo oscuro, sin botón.
+  const heroVideoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = heroVideoRef.current;
+    if (!video) return;
+    const intento = video.play();
+    if (intento) {
+      intento.catch(() => {
+        video.style.display = 'none';
+      });
+    }
+  }, []);
+
   useEffect(() => {
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual';
@@ -1472,6 +1488,7 @@ export default function Home() {
       <section id="inicio" className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 pt-20 overflow-hidden">
 
         <motion.video
+          ref={heroVideoRef}
           autoPlay
           loop
           muted
@@ -1606,47 +1623,6 @@ export default function Home() {
             )}
           </motion.div>
 
-        </div>
-      </section>
-
-      {/* METODOLOGÍA */}
-      <section id="proceso" className="max-w-4xl mx-auto pt-28 px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false }}
-          transition={{ duration: 0.6 }}
-          className="mb-16"
-        >
-          <h3 className="text-3xl md:text-4xl font-bold tracking-tight mb-2"><DecodeText text={t.process.title} /></h3>
-          <div className="h-1 w-20 bg-white rounded-full"></div>
-        </motion.div>
-
-        <div className="relative border-l border-gray-800 ml-3 md:ml-0">
-          {t.process.items.map((item, i) => (
-            <motion.div
-              key={item.role}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: false }}
-              transition={{ duration: 0.5, delay: 0.1 * (i + 1) }}
-              className="mb-12 ml-8 relative"
-            >
-              <motion.span
-                initial={{ scale: 0 }}
-                whileInView={{ scale: 1 }}
-                viewport={{ once: false }}
-                transition={{ duration: 0.4, delay: 0.1 * (i + 1) + 0.1 }}
-                className={`absolute -left-[41px] top-1 flex h-4 w-4 rounded-full ${item.color} ring-4 ring-[#050505]`}
-              ></motion.span>
-              <div className="flex flex-col md:flex-row md:items-center justify-between mb-2">
-                <h4 className="text-xl font-bold text-white">{item.role}</h4>
-                <time className={`text-sm font-mono mt-1 md:mt-0 ${item.timeColor}`}>{item.time}</time>
-              </div>
-              <div className="text-gray-300 font-medium mb-3">{item.company}</div>
-              <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
-            </motion.div>
-          ))}
         </div>
       </section>
 
@@ -1816,6 +1792,47 @@ export default function Home() {
         </div>
       </section>
 
+      {/* METODOLOGÍA */}
+      <section id="proceso" className="max-w-4xl mx-auto pt-28 px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false }}
+          transition={{ duration: 0.6 }}
+          className="mb-16"
+        >
+          <h3 className="text-3xl md:text-4xl font-bold tracking-tight mb-2"><DecodeText text={t.process.title} /></h3>
+          <div className="h-1 w-20 bg-white rounded-full"></div>
+        </motion.div>
+
+        <div className="relative border-l border-gray-800 ml-3 md:ml-0">
+          {t.process.items.map((item, i) => (
+            <motion.div
+              key={item.role}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: false }}
+              transition={{ duration: 0.5, delay: 0.1 * (i + 1) }}
+              className="mb-12 ml-8 relative"
+            >
+              <motion.span
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: false }}
+                transition={{ duration: 0.4, delay: 0.1 * (i + 1) + 0.1 }}
+                className={`absolute -left-[41px] top-1 flex h-4 w-4 rounded-full ${item.color} ring-4 ring-[#050505]`}
+              ></motion.span>
+              <div className="flex flex-col md:flex-row md:items-center justify-between mb-2">
+                <h4 className="text-xl font-bold text-white">{item.role}</h4>
+                <time className={`text-sm font-mono mt-1 md:mt-0 ${item.timeColor}`}>{item.time}</time>
+              </div>
+              <div className="text-gray-300 font-medium mb-3">{item.company}</div>
+              <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
       {/* FAQ */}
       <section id="faq" className="max-w-3xl mx-auto pt-28 px-4">
         <motion.div
@@ -1872,10 +1889,10 @@ export default function Home() {
             <ul className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
               {[
                 { href: '#nosotros', label: t.nav.nosotros },
-                { href: '#proceso', label: t.nav.proceso },
                 { href: '#servicios', label: t.nav.servicios },
                 { href: '#planes', label: t.nav.planes },
                 { href: '#proyectos', label: t.nav.proyectos },
+                { href: '#proceso', label: t.nav.proceso },
                 { href: '#faq', label: t.footer.faq },
                 { href: '#contacto', label: t.footer.contact },
               ].map((link) => (
